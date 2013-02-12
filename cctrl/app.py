@@ -24,9 +24,9 @@ import shlex
 from settings import SSH_FORWARDER, SSH_FORWARDER_PORT
 from datetime import datetime
 
-from pycclib.cclib import GoneError, ForbiddenError, TokenRequiredError, BadRequestError, ConflictDuplicateError
+from pycclib.cclib import GoneError, ForbiddenError, TokenRequiredError, BadRequestError, ConflictDuplicateError, ThrottledError
 from subprocess import check_call, CalledProcessError
-from cctrl.error import InputErrorException, messages
+from cctrl.error import InputErrorException, AddonInputErrorException, messages
 from cctrl.oshelpers import check_installed_rcs
 from cctrl.output import print_deployment_details, print_app_details,\
     print_alias_details, print_log_entries, print_list_apps,\
@@ -488,6 +488,8 @@ class AppController():
             self.api.create_addon(app_name, deployment_name, args.addon, options)
         except ConflictDuplicateError:
             raise InputErrorException('DuplicateAddon')
+        except ThrottledError as ex:
+            raise AddonInputErrorException(str(ex))
         return True
 
     def showAddon(self, args):

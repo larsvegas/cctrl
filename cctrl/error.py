@@ -75,6 +75,9 @@ class InputErrorException(Exception):
     def __str__(self):
         return '[ERROR]' + ' ' + self.error_message
 
+class AddonInputErrorException(InputErrorException):
+    def __init__(self, msg):
+        self.error_message = msg
 
 class PasswordsDontMatchException(Exception):
     """
