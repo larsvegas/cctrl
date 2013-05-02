@@ -87,7 +87,7 @@ def is_buildpack_url_valid(buildpack_url):
         Is the given url a valid buildpack url?
     """
     sp = subprocess.Popen(
-        ['git', 'ls-remote', buildpack_url],
+        ['git', 'ls-remote', buildpack_url.split('#')[0]],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         shell=False
